@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erasmus Budget Planner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Safe-to-Spend 💸</h1>
+        <p style="font-size: 0.9rem; color: #666; margin-top: 15px;">Total Remaining Budget</p>
+        <div id="total-remaining-eur" style="font-size: 1.5rem; color: #2c3e50; font-weight: bold;">€0.00</div>
+        <div id="total-remaining-try" style="font-size: 1rem; color: #7f8c8d; margin-bottom: 20px;">(0.00 TL)</div>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+        <p style="font-size: 0.9rem; color: #666; margin-top: 10px; margin-bottom: 5px;">Daily Safe-to-Spend Limit</p>
+        <div id="daily-limit-display" style="font-size: 1.8rem; color: #2ecc71; font-weight: bold;">€0.00</div>
+        <div id="daily-limit-try" style="font-size: 1.1rem; color: #7f8c8d;">(0.00 TL)</div>
+        
+    
+        <div class="setup-area" style="margin: 20px 0; padding: 15px; border: 1px dashed #ccc; border-radius: 10px;">
+            <p style="font-size: 0.9rem; color: #666;">Set your Erasmus Grant & End Date</p>
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <input type="number" id="total-grant" placeholder="Total Grant (€)" style="flex: 1; height: 42px;">
+                <input type="date" id="end-date" style="flex: 1; height: 42px;">
+                <button onclick="saveInitialSettings()">Save</button>
+            </div>
+        </div>
+    
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+    
+        <div class="input-group">
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 12px; text-align: center;">Log your daily expenses</p>
+            
+            <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+                <input type="number" id="expense-amount" placeholder="Amount" style="flex: 2; min-width: 100px;">
+                <select id="expense-currency" style="flex: 1;">
+                    <option value="EUR">€ EUR</option>
+                    <option value="TRY">₺ TRY</option>
+                </select>
+            </div>
+        
+            <select id="expense-category" style="width: 100%; margin-bottom: 15px;">
+                <option value="" disabled selected>Choose Category...</option>
+                <option value="Food">🍔 Food & Drink</option>
+                <option value="Transport">🚌 Transport</option>
+                <option value="Entertainment">🎉 Entertainment</option>
+                <option value="Travel">✈️ Travel</option>
+                <option value="Health">💊 Health</option>
+                <option value="Other">📦 Other</option>
+            </select>
+        
+            <div style="display: flex; justify-content: center;">
+                <button onclick="addExpense()" class="log-button">LOG EXPENSE</button>
+            </div>
+        </div>
+        <div style="margin-top: 30px; padding: 10px;">
+            <canvas id="expenseChart" width="400" height="400"></canvas>
+        </div>
+    
+        <ul id="expense-list" style="list-style: none; padding: 0; margin-top: 20px; text-align: left;"></ul>
+        <div style="margin-top: 20px; border-top: 1px dashed #ccc; padding-top: 15px;">
+            <button onclick="exportToCSV()" style="background-color: #2ecc71; color: white; border: none; padding: 10px; border-radius: 5px; width: 100%; cursor: pointer; font-weight: bold; margin-bottom: 10px;">
+                📥 Export Data to Excel (CSV)
+            </button>
+        
+            <button onclick="resetApp()" style="background-color: #95a5a6; color: white; border: none; padding: 8px; border-radius: 5px; width: 100%; cursor: pointer; font-size: 0.8rem; opacity: 0.8;">
+                Reset All Data
+            </button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

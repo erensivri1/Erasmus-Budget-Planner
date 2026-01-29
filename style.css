@@ -1,0 +1,177 @@
+/* Premium Background & Font */
+body {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); /* Derin gece mavisi */
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Glassmorphism Card */
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px); /* Arkadaki rengi hafif buğular */
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 450px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Şık Başlıklar */
+h1 {
+    color: #1e3c72;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: -1px;
+}
+
+/* Kartların Etrafına Hafif Gölge */
+.setup-area, .input-group, .display-card {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+    transition: transform 0.3s ease;
+}
+
+.setup-area:hover, .input-group:hover {
+    transform: translateY(-5px); /* Üzerine gelince hafif yükselme efekti */
+}
+
+/* 1. Tüm Butonları Zayıflat ve Modernleştir */
+button[onclick], .primary-button {
+    height: 32px;               /* Çok daha kibar bir yükseklik */
+    padding: 0 14px;
+    font-size: 0.7rem;          /* Yazı boyutunu küçülttük */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border: none;
+    border-radius: 4px;         /* Daha keskin, modern köşeler */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 2. SAVE Butonu (Indigo Mavi) */
+button[onclick="saveInitialSettings()"] {
+    background-color: #4f46e5 !important;
+    color: white;
+}
+
+/* 3. LOG EXPENSE Butonu (Zümrüt Yeşili) */
+button[onclick="addExpense()"] {
+    background-color: #059669 !important; /* Mavi yerine güven veren yeşil */
+    color: white;
+}
+
+/* Hover Efekti */
+button[onclick]:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+/* 3. MADDE: Harcama Listesi Modern Kart Tasarımı */
+#expense-list li {
+    background: #ffffff;
+    margin-bottom: 12px;     /* Kartlar arası boşluk */
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Hafif gölge efekti */
+    padding: 15px !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s ease; /* Üzerine gelince tepki vermesi için */
+}
+
+/* Kartın üzerine gelince hafif büyüme efekti */
+#expense-list li:hover {
+    transform: scale(1.02);
+}
+
+/* Kategori isimlerini (b içindeki yazıları) daha belirgin yap */
+#expense-list li b, #expense-list li strong {
+    color: #1e3c72;
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* 1. ADIM: Butonları Zayıflat ve Renklendir */
+.primary-button, button[onclick] {
+    height: 42px;               /* Giriş kutularıyla aynı boy */
+    padding: 0 20px;
+    background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+}
+
+.primary-button:hover, button[onclick]:hover {
+    transform: translateY(-2px); /* Hafif yükselme */
+    box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3);
+}
+
+/* Hover Efekti (Üzerine gelince) */
+.primary-button:hover {
+    background-color: #2980b9; /* Biraz daha koyu mavi */
+    transform: translateY(-2px); /* Hafifçe yukarı kalkma efekti */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Gölgeyi belirginleştir */
+}
+
+/* Kutuların Genel Tasarımı */
+input[type="number"], input[type="date"], select {
+    width: 100%;                /* Kutular alanı tam kaplasın */
+    height: 40px;               /* Daha ferah bir yükseklik */
+    padding: 0 12px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;         /* Modern yuvarlak köşeler */
+    background-color: #ffffff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+/* Kutuya tıklayınca mavi parlasın */
+input:focus, select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Ortalanmış Yeşil Buton */
+.log-button {
+    height: 42px;
+    min-width: 180px;            /* Butonu biraz heybetli yapalım */
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;        /* Tam kapsül şeklinde modern buton */
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    transition: all 0.3s ease;
+}
+
+.log-button:hover {
+    transform: translateY(-2px); /* Üzerine gelince yükselsin */
+    filter: brightness(1.1);
+    box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
+}
