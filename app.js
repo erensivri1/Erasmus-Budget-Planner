@@ -1,6 +1,5 @@
-// 1. İlk Ayarları Kaydetme (Total Grant & End Date)
-const TRY_RATE = 52.05; // 1 EUR = 52.05 TL
-let myChart = null; // Global variable to store the chart instance
+const TRY_RATE = 52.05; 
+let myChart = null; 
 function saveInitialSettings() {
     const grant = document.getElementById('total-grant').value;
     const date = document.getElementById('end-date').value;
@@ -8,7 +7,7 @@ function saveInitialSettings() {
     if (grant && date) {
         localStorage.setItem('totalBudget', grant);
         localStorage.setItem('endDate', date);
-        // Eğer ilk kez kuruluyorsa harcama listesini boş olarak oluştur
+        
         if (!localStorage.getItem('expenses')) {
             localStorage.setItem('expenses', JSON.stringify([]));
         }
@@ -19,10 +18,9 @@ function saveInitialSettings() {
     }
 }
 
-// 2. Harcama Ekleme Fonksiyonu
 function addExpense() {
     const amountInput = document.getElementById('expense-amount');
-    const currencyInput = document.getElementById('expense-currency'); // HTML'deki yeni select
+    const currencyInput = document.getElementById('expense-currency'); 
     const categoryInput = document.getElementById('expense-category');
     
     let amount = parseFloat(amountInput.value);
@@ -34,7 +32,7 @@ function addExpense() {
     }
 
     const newExpense = {
-        amount: amount, // Artık her zaman Euro cinsinden kaydedilir
+        amount: amount, 
         category: categoryInput.value,
         date: new Date().toLocaleDateString('en-GB')
     };
@@ -44,13 +42,12 @@ function addExpense() {
     localStorage.setItem('expenses', JSON.stringify(expenses));
 
     amountInput.value = '';
-    document.getElementById('expense-amount').value = '';      // Miktarı temizle
+    document.getElementById('expense-amount').value = '';     
     document.getElementById('expense-category').value = '';
     renderApp();
 }
 
 function renderApp() {
-    // Add this line inside the renderApp function, at the very end
     
     const budget = parseFloat(localStorage.getItem('totalBudget'));
     const endDateStr = localStorage.getItem('endDate');
@@ -64,8 +61,7 @@ function renderApp() {
     const diffTime = endDate - today;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    // 1. DEĞİŞİKLİK: Toplam harcama hesaplaması
-    // Artık "current" bir sayı değil, bir obje. O yüzden "current.amount" diyoruz.
+    
     const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
     const totalSpent = expenses.reduce((sum, current) => sum + parseFloat(current.amount), 0);
 
@@ -74,26 +70,26 @@ function renderApp() {
     document.getElementById('total-remaining-try').innerText = "(" + (remaining * TRY_RATE).toFixed(2) + " TL)";
     if (diffDays > 0) {
         const safeEur = (budget - totalSpent) / diffDays;
-        const safeTry = safeEur * TRY_RATE; // TL karşılığını hesapla
+        const safeTry = safeEur * TRY_RATE; 
     
-        // Euro limitini yazdır
+        
         document.getElementById('daily-limit-display').innerText = "€" + safeEur.toFixed(2);
         
-        // TL limitini yazdır (HTML'e eklediğimiz yeni ID)
+        
         document.getElementById('daily-limit-try').innerText = "(" + safeTry.toFixed(2) + " TL)";
     }
 
-    // 2. DEĞİŞİKLİK: Liste oluşturma kısmı
+    
     const listElement = document.getElementById('expense-list');
     listElement.innerHTML = '';
 
     expenses.slice().reverse().forEach((exp, revIndex) => {
         const originalIndex = expenses.length - 1 - revIndex;
-        const amountTry = exp.amount * TRY_RATE; // Euro değerini TL'ye çeviriyoruz
+        const amountTry = exp.amount * TRY_RATE; 
         const li = document.createElement('li');
         li.style.cssText = "display:flex; justify-content:space-between; align-items:center; padding:12px; border-bottom:1px solid #eee; font-size: 0.9rem;";
 
-        // Liste içeriğinde kategori ve tarihi de gösteriyoruz
+        
         li.innerHTML = `
             <div>
                 <span style="color: #888; font-size: 0.8rem;">${exp.date}</span><br>
@@ -110,19 +106,19 @@ function renderApp() {
 }
 
 window.onload = () => {
-    getLiveExchangeRate(); // Önce canlı kuru çek
-    renderApp();           // Sonra uygulamayı başlat
+    getLiveExchangeRate(); 
+    renderApp();           
 };
 
 function deleteExpense(index) {
-    // Serious confirmation message for technical documentation standards
+    
     if (confirm("Are you sure you want to delete this expense?")) {
         const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
         
-        // Remove the selected item from the array
+        
         expenses.splice(index, 1);
         
-        // Update LocalStorage and refresh the UI
+        
         localStorage.setItem('expenses', JSON.stringify(expenses));
         renderApp();
     }
@@ -131,7 +127,7 @@ function updateChart() {
     const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
     const ctx = document.getElementById('expenseChart').getContext('2d');
 
-    // 1. Kategorilere göre harcamaları topla
+    
     const totals = expenses.reduce((acc, current) => {
         acc[current.category] = (acc[current.category] || 0) + parseFloat(current.amount);
         return acc;
@@ -140,7 +136,7 @@ function updateChart() {
     const labels = Object.keys(totals);
     const dataValues = Object.values(totals);
 
-    // 2. Eğer grafik zaten varsa, her seferinde yenisini oluşturmak yerine güncelle
+    
     if (myChart) {
         myChart.destroy();
     }
@@ -168,15 +164,15 @@ function exportToCSV() {
     const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
     const totalGrant = parseFloat(localStorage.getItem('totalBudget')) || 0;
     
-    // 1. Hesaplamalar
+    
     const totalSpent = expenses.reduce((sum, curr) => sum + parseFloat(curr.amount), 0);
     const remainingEur = totalGrant - totalSpent;
     const remainingTry = remainingEur * 52.05;
 
-    // 2. Excel UTF-8 BOM ve Başlangıç
+    
     let csvContent = "\ufeff"; 
     
-    // 3. Dikey Özet Bölümü (Excel'de çok daha temiz durur)
+    
     csvContent += "ERASMUS BUDGET REPORT\n";
     csvContent += `Report Date;${new Date().toLocaleDateString('en-GB')}\n\n`;
     
@@ -186,7 +182,7 @@ function exportToCSV() {
     csvContent += `REMAINING (EUR);€${remainingEur.toFixed(2)}\n`;
     csvContent += `REMAINING (TRY);${remainingTry.toFixed(2)} TL\n\n`;
     
-    // 4. Harcama Tablosu
+    
     csvContent += "DETAILED EXPENSE LOG\n";
     csvContent += "Date;Category;Amount (EUR);Amount (TRY)\n";
 
@@ -195,7 +191,7 @@ function exportToCSV() {
         csvContent += `${exp.date};${exp.category};${exp.amount.toFixed(2)};${amountTRY}\n`;
     });
 
-    // 5. İndirme Mantığı
+   
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -204,24 +200,24 @@ function exportToCSV() {
     link.click();
 }
 
-// Tüm verileri sıfırlayan fonksiyon
+
 function resetApp() {
     if (confirm("Are you sure you want to delete ALL data? This cannot be undone.")) {
-        localStorage.clear(); // Tarayıcı hafızasını temizler
-        location.reload();    // Sayfayı yenileyip her şeyi sıfırdan başlatır
+        localStorage.clear(); 
+        location.reload();    
     }
 }
 
 async function getLiveExchangeRate() {
     try {
-        // Ücretsiz bir API üzerinden güncel kurları çekiyoruz
+        
         const response = await fetch('https://open.er-api.com/v6/latest/EUR');
         const data = await response.json();
         
         if (data && data.rates && data.rates.TRY) {
-            TRY_RATE = data.rates.TRY; // API'den gelen canlı kuru değişkene ata
+            TRY_RATE = data.rates.TRY; 
             console.log("Live Rate Updated: 1 EUR = " + TRY_RATE + " TRY");
-            renderApp(); // Kur güncellenince ekranı tekrar çiz
+            renderApp(); 
         }
     } catch (error) {
         console.error("Döviz kuru çekilemedi, sabit kur kullanılıyor:", error);
