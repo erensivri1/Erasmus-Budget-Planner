@@ -19,5 +19,4 @@ This is a comprehensive, web-based financial tracking tool specifically designed
 ## 📱 Mobile Experience
 Optimized for mobile use. You can add this web app to your **Home Screen** on iOS or Android for a native app-like experience during your travels.
 
----
-*Created by Eren as a personal project for his Erasmus journey at UPB, Bucharest.* 🇷🇴
+-
